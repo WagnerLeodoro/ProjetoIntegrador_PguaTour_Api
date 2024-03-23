@@ -1,22 +1,26 @@
-const path = require('path');
-require('dotenv').config()
+const path = require("path")
+require("dotenv").config()
 module.exports = {
-
   development: {
-    client: 'pg',
+    client: "sqlite3",
     connection: {
-      host: process.env.HOST,
-      port: process.env.DB_PORT,
-      user: process.env.USER,
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE
+      filename: path.resolve(__dirname, "src", "database", "database.db"),
+    },
+    pool: {
+      afterCreate: (conn, cb) => conn.run("PRAGMA foreign_keys = ON", cb),
     },
     migrations: {
-      directory: path.resolve(__dirname, 'src', 'database', 'knex', 'migrations'),
+      directory: path.resolve(
+        __dirname,
+        "src",
+        "database",
+        "knex",
+        "migrations",
+      ),
     },
     seeds: {
-      directory: path.resolve(__dirname, 'src', 'database', 'knex', 'seeds'),
+      directory: path.resolve(__dirname, "src", "database", "knex", "seeds"),
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
   },
-};
+}

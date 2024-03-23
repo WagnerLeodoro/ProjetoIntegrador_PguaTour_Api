@@ -1,16 +1,17 @@
-const {Router} = require('express')
-const usersRouter = require('./users.routes')
-const imagesRouter = require('./images.routes')
-const commentsRouter = require('./comments.routes')
-const pointsRouter = require('./points.routes')
-const sessionRouter = require('./session.routes')
+const { Router } = require("express")
 
-const routes = Router();
+const usersRouter = require("./users.routes")
+const imagesRouter = require("./images.routes")
+const commentsRouter = require("./comments.routes")
+const pointsRouter = require("./points.routes")
+const sessionRouter = require("./session.routes")
 
-routes.use('/users', usersRouter)
-routes.use('/images', imagesRouter)
-routes.use('/comments', commentsRouter)
-routes.use('/points', pointsRouter)
-routes.use('/session', sessionRouter)
+const routes = Router()
 
-module.exports = routes;
+routes.use("/users", usersRouter)
+routes.use("/images", imagesRouter)
+routes.use("/comments", commentsRouter)
+routes.use("/points", pointsRouter)
+routes.use("/session", sessionRouter)
+
+module.exports = routes
