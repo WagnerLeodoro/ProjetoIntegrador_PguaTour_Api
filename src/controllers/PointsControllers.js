@@ -15,13 +15,14 @@ class PointsController {
   }
 
   async showPoints(req, res) {
-    const { point_id } = req.params
+    const points = await knex("points")
 
-    const points = await knex("points").where({ id: point_id })
+    const [pointId] = points.map((point) => point.id)
+
     const comments = await knex("comments")
-      .where({ points_id: point_id })
+      .where({ points_id: pointId })
       .orderBy("created_at", "desc")
-    const images = await knex("images").where({ points_id: point_id })
+    const images = await knex("images").where({ points_id: pointId })
 
     const pointsComments = points.map((point) => {
       return {
@@ -39,9 +40,24 @@ class PointsController {
   }
 
   async listPointsById(req, res) {
-    const { id } = req.params
-    const points = await knex("points").where({ id })
-    return res.status(200).json(points)
+    const { points_id } = req.params
+
+    const points = await knex("points").where({ id: points_id })
+
+    const comments = await knex("comments")
+      .where({ points_id })
+      .innerJoin("users", "comments.user_id", "users.id")
+      .orderBy("created_at", "desc")
+    const images = await knex("images").where({ points_id })
+
+    const pointsComments = points.map((point) => {
+      return {
+        ...point,
+        comments,
+        images,
+      }
+    })
+    return res.status(200).json(pointsComments)
   }
 
   async deletePoints(req, res) {

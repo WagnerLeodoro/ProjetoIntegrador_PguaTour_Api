@@ -9,8 +9,8 @@ const pointsRoutes = Router()
 
 const pointsControllers = new PointsControllers()
 
-pointsRoutes.get("/:point_id", pointsControllers.showPoints)
-pointsRoutes.get("/:id", pointsControllers.listPointsById)
+pointsRoutes.get("/", pointsControllers.showPoints)
+pointsRoutes.get("/details/:points_id", pointsControllers.listPointsById)
 
 pointsRoutes.use(ensureAuthenticated)
 pointsRoutes.use(checkIsAdmin)
